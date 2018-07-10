@@ -51,7 +51,7 @@
             //view model
             var myViewModel = ko.validatedObservable({
                 title: ko.observable().extend({ required: true }),
-                description: ko.observable().extend({ required: true, minLength: 2, maxLength: 17 }),
+                description: ko.observable().extend({ required: true, minLength: 2, maxLength: 17 })
             });
 
             //detect for the submit button
