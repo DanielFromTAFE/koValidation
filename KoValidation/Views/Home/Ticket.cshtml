@@ -1,0 +1,79 @@
+﻿
+@{
+    ViewBag.Title = "Ticket";
+}
+
+<h2>Ticket</h2>
+<!-- button -->
+<button id="btnOpenModal" class="btn btn-default" type="submit">Add New Ticket</button>
+<!-->
+<!-- Modal -->
+<div id="myModal"  class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">new ticket</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="input-group">Title</label>
+                    <input class="form-control" data-bind="textInput: title, valueUpdate: 'afterkeydown'" id="title" />                    
+                </div>
+                <div class="form-group">
+                    <label class="input-group">Description</label>
+                    <input class="form-control" data-bind="textInput: description, valueUpdate: 'afterkeydown'" id="description" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnSubmit" class="btn btn-default" data-dismiss="modal">Submit</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //set up init for ko validation
+            ko.validation.init({
+                registerExtenders: true,
+                messagesOnModified: true,
+                insertMessages: true,
+                parseInputAttributes: true,
+                messageTemplate: null,
+                errorClass: 'text-danger'
+            }, true); 
+
+            //view model
+            var myViewModel = ko.validatedObservable({
+                title: ko.observable().extend({ required: true }),
+                description: ko.observable().extend({ required: true, minLength: 2, maxLength: 17 }),
+            });
+
+            //detect for the submit button
+            $('#btnSubmit').on('click', function () {
+                //check view model validation
+                if (myViewModel.isValid() === false) {
+                    //show all the error messages
+                    myViewModel.errors.showAllMessages();
+                    //stop the screen(next action)
+                    return false;   
+                }
+            });
+            //apply the view model
+            ko.applyBindings(myViewModel);
+
+            //detect the click event for btnOpenModal
+            $('#btnOpenModal').on('click', function () {
+                //show the modal
+                $('#myModal').modal('show');
+                    
+            });
+            
+        });
+    </script>
+}

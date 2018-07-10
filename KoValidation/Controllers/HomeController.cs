@@ -13,7 +13,7 @@ namespace KoValidation.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Ticket()
         {
             ViewBag.Message = "Your application description page.";
 
